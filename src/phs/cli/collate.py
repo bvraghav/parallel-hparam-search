@@ -34,7 +34,7 @@ def main(
     read_json(train_dir/id/'result.json')
     for id in df.loc[:, 'id']
   ]
-  best = min(trainedModels, key=lambda a: a['testAcc'])
+  best = max(trainedModels, key=lambda a: a['testAcc'])
   lg.info(f'best: {best}')
 
   result = dict(

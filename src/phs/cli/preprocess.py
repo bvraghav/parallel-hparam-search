@@ -2,7 +2,7 @@ import logging as LG
 import click
 from pathlib import Path
 
-from . datasetFunctions import *
+from phs.datasetFunctions import *
 
 @click.command(context_settings = dict(
   show_default                  = True,
@@ -30,11 +30,10 @@ def main(archive, archive_fname, data_dir):
   lg.info(f'archive: {archive}')
   lg.info(f'fname: {archive_fname}')
 
-  dataRaw = readDataFromArchive(archive, archive_fname)
+  dataRaw = readDataFromZipArchive(archive, archive_fname)
   dataClean = sanitiseData(dataRaw)
   xTrainVal,yTrainVal,xTest,yTest = splitData(dataClean)
   saveData(data_dir,xTrainVal,yTrainVal,xTest,yTest)
-  raise SystemExit(-1)
 
 if __name__ == '__main__' :
   LG.basicConfig(

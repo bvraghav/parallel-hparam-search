@@ -6,7 +6,8 @@ from io import StringIO
 import pickle
 import json
 
-from . datasetFunctions import *
+from phs.datasetFunctions import *
+from phs.trainFunctions import *
 
 @click.command(context_settings = dict(
   show_default                  = True,
@@ -45,35 +46,46 @@ def main(
   lg.info(f'hparams: C: {C}, k: {k}')
 
   xTrainVal,yTrainVal,xTest,yTest = loadData(data_dir)
-  # N = yTrainVal.shape[0]
-  # shuffledIndices = getShuffledIndices(N)
+  lg.info(
+    f'xTrainval: {xTrainVal.dtype, xTrainVal.shape}'
+  )
+
+  ksplit = Ksplit(k, yTrainVal.shape[0])
   models = []
 
-  for _ in range(k) :
-    valAcc = 0.5
-    model = const_one
-    models.append(dict(
-      valAcc=valAcc,
-      model=model
-    ))
+  for i in range(k) :
+    iTrain, iVal = ksplit[i]
+    xTrain = xTrainVal[iTrain]
+    yTrain = yTrainVal[iTrain]
+    xVal = xTrainVal[iVal]
+    yVal = yTrainVal[iVal]
 
-  pretrained = dict(
+    model = getTrainedModel(
+      xTrain, yTrain, xVal, yVal,
+      dict(C=C)
+    )
+    models.append(model)
+
+  experts = Experts(models, [-1, 1])
+  meta_common = dict(
     id=id,
     hparams=dict(C=C),
-    testAcc=0.5,
-    avgValAcc=0.5,
-    experts=models,
+    testAcc=experts.acc(xTest,yTest),
+    avgValAcc=np.mean([
+      e['metrics'][e['theMetric']] for e in experts
+    ]),
+  )
+  pretrained = dict(
+    experts=experts,
+    **meta_common,
   )
   with open(out_dir/model_fname, 'wb') as F :
     pickle.dump(pretrained, F)
   lg.info(f'Written to {out_dir/model_fname}')
 
   result = dict(
-    id=id,
-    hparams=dict(C=C),
-    testAcc=0.5,
-    avgValAcc=0.5,
     pretrainedModel=str(out_dir/model_fname),
+    **meta_common,
   )
   with open(out_dir/result_fname, 'w') as F :
     json.dump(result, F)
