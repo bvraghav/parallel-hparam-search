@@ -49,7 +49,7 @@ def main(
   # shuffledIndices = getShuffledIndices(N)
   models = []
 
-  for i in range(k) :
+  for _ in range(k) :
     valAcc = 0.5
     model = const_one
     models.append(dict(
@@ -73,6 +73,7 @@ def main(
     hparams=dict(C=C),
     testAcc=0.5,
     avgValAcc=0.5,
+    pretrainedModel=str(out_dir/model_fname),
   )
   with open(out_dir/result_fname, 'w') as F :
     json.dump(result, F)
