@@ -50,10 +50,10 @@ def saveData(prefix,xTrainVal,yTrainVal,xTest,yTest) :
   lg = LG.getLogger(__name__)
   lg.info(f'prefix: {prefix}')
 
-  xTrainVal = pandas.DataFrame(xTrainVal)
-  yTrainVal = pandas.DataFrame(yTrainVal)
-  xTest = pandas.DataFrame(xTest)
-  yTest = pandas.DataFrame(yTest)
+  xTrainVal = pd.DataFrame(xTrainVal)
+  yTrainVal = pd.DataFrame(yTrainVal)
+  xTest = pd.DataFrame(xTest)
+  yTest = pd.DataFrame(yTest)
 
   fnames = []
   for (fnameFmt,df) in zip(
