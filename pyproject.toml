@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "phs"
-version = "0.0.1"               # May be automated using CI/CD
+version = "1.0.1"               # May be automated using CI/CD
 authors = [
   { name="Raghav B. Venkataramaiyer", email="bv.raghav@thapar.edu" },
 ]
