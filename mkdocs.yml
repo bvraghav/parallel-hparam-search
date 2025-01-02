@@ -1,0 +1,56 @@
+site_name: Parallel Hyperparameter Search
+
+plugins:
+- search
+- gen-files:
+    scripts:
+    - scripts/gen_ref_pages.py
+- literate-nav:
+    nav_file: summary.md
+- section-index
+- mkdocstrings:
+    handlers:
+      python:
+        paths: [src]
+        options:
+          summary: true
+          show_symbol_type_heading: true
+          show_symbol_type_toc: true
+          # show_object_full_path: true
+          show_root_full_path: true
+          show_root_heading: true
+          show_source: false
+
+theme:
+  name: material
+
+watch:
+  - src
+
+extra_css:
+  - stylesheets/extra.css
+  - https://unpkg.com/katex@0/dist/katex.min.css
+
+extra_javascript:
+- https://unpkg.com/katex@0/dist/katex.min.js
+- javascript/arithmatex.js
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite:
+      custom_inline:
+        - name: math
+          class: arithmatex
+          format: !!python/object/apply:pymdownx.arithmatex.arithmatex_inline_format {which: generic}
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: math
+          class: arithmatex
+          arithmatex: !!python/object/apply:pymdownx.arithmatex.arithmatex_fenced_format {which: generic}
+  - mkdocs-click
