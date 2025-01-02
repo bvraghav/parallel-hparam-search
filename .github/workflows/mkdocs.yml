@@ -27,6 +27,9 @@ jobs:
             mkdocs-material-
       - run: pip install             \
           click                      \
+          numpy                      \
+          pandas                     \
+          scikit-learn               \
           mkdocs                     \
           mkdocs-material            \
           mkdocs-material-extensions \
@@ -37,5 +40,4 @@ jobs:
           mkdocs-section-index       \
           mkdocs-click               \
           pymdown-extensions
-      - run: export PYTHONPATH=src:$PYTHONPATH
       - run: PYTHONPATH=src:$PYTHONPATH mkdocs gh-deploy --force
