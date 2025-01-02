@@ -38,4 +38,4 @@ jobs:
           mkdocs-click               \
           pymdown-extensions
       - run: export PYTHONPATH=src:$PYTHONPATH
-      - run: mkdocs gh-deploy --force
+      - run: PYTHONPATH=src:$PYTHONPATH mkdocs gh-deploy --force
