@@ -61,10 +61,10 @@ dist/.preprocessed : dist/raw/$(RAW_AR) dist/preprocessed
 dist/raw/$(RAW_AR) : dist/raw
 	curl -L -o dist/raw/$(RAW_AR) $(DATA_URL)
 
-dist/raw dist/preprocessed dist/trained :
+dist dist/raw dist/preprocessed dist/trained :
 	-mkdir -p $(@)
 
-dist/hparams.json :
+dist/hparams.json : dist
 	$(python) -m phs.generateHparams	\
 	  -- $(@) $(HPARAMS_RANGE)
 
