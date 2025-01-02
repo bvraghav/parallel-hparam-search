@@ -37,4 +37,5 @@ jobs:
           mkdocs-section-index       \
           mkdocs-click               \
           pymdown-extensions
+      - run: export PYTHONPATH=src:$PYTHONPATH
       - run: mkdocs gh-deploy --force
