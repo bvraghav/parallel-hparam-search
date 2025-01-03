@@ -1,3 +1,19 @@
+DOC="""Preprocess the database.  Following is the
+comprehensive subroutine in essence.  Note that the
+output of any of the functions has not been bound to a
+specific type here.  They are entirely dependent upon
+the module `phs.datasetFunctions` to enforce, where the
+four functions are defined.
+
+``` python
+dataRaw = readDataFromZipArchive(archive, archive_fname)
+dataClean = sanitiseData(dataRaw)
+xTrainVal,yTrainVal,xTest,yTest = splitData(dataClean)
+saveData(data_dir,xTrainVal,yTrainVal,xTest,yTest)
+```
+"""
+
+
 import logging as LG
 import click
 from pathlib import Path
@@ -7,7 +23,7 @@ from phs.datasetFunctions import *
 @click.command(context_settings = dict(
   show_default                  = True,
   help_option_names             = ['-h','--help']
-))
+), help=DOC)
 @click.argument('ARCHIVE',
                 type=click.Path(
                   exists=True, dir_okay=False,
