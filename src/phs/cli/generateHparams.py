@@ -1,12 +1,21 @@
-"""Generate Hparams.
+DOC="""Generate Hparams.
 
-Given N, cStart, cRange, k;
+Write the generated `pandas.DataFrame` to output file
+`OUT` in json format.
 
-Generate a csv file with N records and header:
-ID,C,k
+Given $N$, $c_{\\text{start}}$, $c_{\\text{range}}$,
+$k$; ($k$ as in $k$-fold cross validation)  
+Generate a csv file with $N$ records and header:
+`ID,C,k`  
+such that $C = 10^{c_{10}}; c_{10} =
+c_{\\text{start}} + c_{\\text{range}} \\cdot u;
+u\\sim\\mathcal{U}(0,1)$  
+and ID is a 4-char long random hex.
 
-such that C = 10^(cStart+cRange*(u~U(0,1)))
-and ID is a 7-char long string.
+In order to adapt this, modify [the click command,
+arguments and
+options](https://click.palletsprojects.com/en/stable/api/).
+
 """
 
 import logging as LG
@@ -20,7 +29,7 @@ from pathlib import Path
 @click.command(context_settings = dict(
   show_default                  = True,
   help_option_names             = ['-h','--help']
-))
+), help=DOC)
 @click.argument('OUT', type=click.Path(
   exists=False, dir_okay=False, path_type=Path
 ))

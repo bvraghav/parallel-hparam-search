@@ -103,9 +103,10 @@ dist/.collated : dist/.trained
 localport	 = $(shell			\
   echo $$(( 1000 + ($$RANDOM % 9000) ))		\
 )
+PORT		:=
 docserve :
 	$(mkdocs) serve				\
-	         -a localhost:$(localport)
+	         -a localhost:$(or $(PORT),$(localport))
 
 docbuild :
 	$(mkdocs) build

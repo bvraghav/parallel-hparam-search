@@ -1,4 +1,10 @@
 """Parallel Hyperparameter Search Module
+
+This module is primarily governed by four CLI scripts,
+namely, `generateHparams`, `preprocess`, `train` and
+`collate`.
+
+
 """
 
 

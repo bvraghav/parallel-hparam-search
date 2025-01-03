@@ -1,9 +1,16 @@
 # Parallel Hyperparameter Tuning #
 
-Parallel hyperparameter tuning using PyTorch
-Multiprocessing Module `torch.multiprocessing` (or
-equivalently Python standard library
-`multiprocessing`).
+## Introduction ##
+
+Parallel hyperparameter tuning using [GNU
+Make](https://www.gnu.org/software/make/).  The similar
+effect may be achieved with an alternative framework
+like [GNU
+Parallel](https://www.gnu.org/software/parallel/),
+Python standard library
+[`multiprocessing`](https://docs.python.org/3/library/multiprocessing.html)
+module, or the PyTorch Multiprocessing Module
+[`torch.multiprocessing`](https://pytorch.org/docs/stable/multiprocessing.html).
 
 The core idea is analogous to divide and conquer
 paradigm, just even more banal, and is called scatter
@@ -32,6 +39,18 @@ In short, the steps are as follows:
 4. Collate results and deduce the best.
 
 
+## Usage ##
+
+``` shell
+make -k dist/hparams.json
+make -kj 10 all
+```
+Create the dist/hparams.json first, and then run the
+training, evaluation and collation tasks in parallel,
+with a bandwidth of 10 processes.
+
+In practice, too, the parallelisation resulted in a
+speed up of $10\times$ as expected.
 
 ## Implementation ##
 
@@ -100,6 +119,13 @@ invoking python CLI module `collate` and thus updating
 
 Similarly the third fourth and fifth targets define how
 the target `dist/.trained` are defined.
+
+Once again, the illustrated example is an essential
+[MWE](https://en.wiktionary.org/wiki/MWE "Minimum
+Working Example").  The actual implementation is
+slightly more involved, and in the spirit of
+[DRY/DIE](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself
+"Don’t Repeat Yourself! aka. Duplication is Evil").
 
 ### Invocation ###
 

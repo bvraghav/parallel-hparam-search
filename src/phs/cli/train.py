@@ -1,3 +1,37 @@
+DOC='''Train the model with given hparams (`HPARAMS_PATH`,
+`ID`) using data from `DATA_DIR` and finally save the
+metadata into `OUT_DIR`/`RESULT_FNAME` and the model
+itself into `OUT_DIR`/`MODEL_FNAME`.
+
+The hparams is a look-up performed over col `id`
+bearing value `ID` (as in command line option `--id`)
+within the `pandas.DataFrame` read from the json file
+`HPARAMS_PATH`.
+
+The data is loaded using
+`phs.datasetFunctions.loadData` with argument
+`DATA_DIR`, and return a tuple
+`xTrainVal,yTrainVal,xTest,yTest`.  Data sanitisation
+is taken care of in the pre-process step.
+
+`phs.trainFunctions.Ksplit` is responsible for
+shuffling and splitting the indices into train and val.
+
+`phs.trainFunctions.getTrainedModel` is responsible for
+training the model.  It returns a model with metadata
+of the form:
+
+``` json
+{ "model": "...<the python model>...", 
+  "hparams": {"C": 0.7073982632},
+  "metrics": {"valAcc": 0.8333333333333334},
+  "theMetric": "valAcc"
+}
+```
+
+The collation is based on the value of the key in dict
+`metrics` given by `theMetric`.'''
+
 import logging as LG
 import pandas as pd
 import click
@@ -12,7 +46,7 @@ from phs.trainFunctions import *
 @click.command(context_settings = dict(
   show_default                  = True,
   help_option_names             = ['-h','--help']
-))
+), help=DOC)
 @click.option('--out-dir', type=click.Path(
   exists=False, file_okay=False, path_type=Path,
 ), required=True)
